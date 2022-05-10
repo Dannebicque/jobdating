@@ -3425,22 +3425,6 @@ html[data-color='light-pink'] {
 .bg-gradient-primary {
   background-image: linear-gradient(160deg, var(--primary), var(--primary), var(--secondary)) !important; }
 
-.bg-vertical-ornament-1 {
-  background: url(../img/product/vertical/vertical-ornament-1.png);
-  background-size: cover; }
-
-.bg-vertical-ornament-2 {
-  background: url(../img/product/vertical/vertical-ornament-2.png);
-  background-size: cover; }
-
-.bg-vertical-ornament-3 {
-  background: url(../img/product/vertical/vertical-ornament-3.png);
-  background-size: cover; }
-
-.bg-vertical-ornament-4 {
-  background: url(../img/product/vertical/vertical-ornament-4.png);
-  background-size: cover; }
-
 a:focus.bg-primary,
 a:hover.bg-primary {
   background-color: var(--primary-darker) !important;
@@ -4223,9 +4207,9 @@ button {
     text-decoration: initial;
     color: var(--secondary) !important; }
 
-.btn-link.disabled,
-.btn-link:disabled {
-  background-color: var(--link); }
+/*.btn-link.disabled,*/
+/*.btn-link:disabled {*/
+/*  background-color: var(--link); }*/
 
 .btn-link:not(:disabled):not(.disabled):active,
 .btn-link:not(:disabled):not(.disabled).active,
@@ -10645,7 +10629,7 @@ div.error {
   color: var(--foreground);
   border-radius: 0.2rem;
   right: 4px;
-  color: var(danger); }
+  color: var(--danger); }
 
 .was-validated .form-control:invalid,
 .form-control.is-invalid,
