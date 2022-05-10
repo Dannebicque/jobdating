@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EspaceEntrepriseController!{% endblock %}
+
+{% block content %}
+    <div class="row g-4 mb-4">
+        {% for offre in offres %}
+            <div class="col-md-4 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ offre.titre }}</h4>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block header %}
+    Vos offres
+{% endblock %}
+
+{% block bouton_header %}
+    <a href="{{ path('app_offre_new')}}" class="btn btn-outline-primary">
+        <i class="bi bi-plus-circle"></i>
+        Ajouter une offre
+    </a>
+{% endblock %}

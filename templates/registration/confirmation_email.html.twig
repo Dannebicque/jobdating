@@ -1,0 +1,9 @@
+<h1>Bonjour {{ user.display }}</h1>
+
+<p>
+    Merci de confirmer votre adresse email en suivant le lien ci-dessous : <br><br>
+    <a href="{{ signedUrl }}">Confirmer mon adresse email</a>.<br><br>
+   Ce lien expire dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+</p>
+
+{{ include('registration/_footer_email.html.twig')}}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section class="scroll-section mb-2" id="but_secondaires">
+        <h2 class="small-title">Votre inscription</h2>
+        <div class="row row-cols-12 row-cols-sm-12 row-cols-xl-12 g-4 mb-5">
+            <div class="col">
+                {% form_theme registrationForm 'bootstrap_5_horizontal_layout.html.twig' %}
+                {{ form_start(registrationForm)}}
+                <div class="card h-100 border-primary">
+                    <div class="card-body">
+                        <div class="alert alert-info">
+                            Votre inscription vous permettra de déposer vos offres d'alternance, de consulter les CV
+                            des étudiants s'inscrivant au jobdating.
+                        </div>
+                        <h3>Votre identité</h3>
+                        {{ form_row(registrationForm.representant.civilite )}}
+                        {{ form_row(registrationForm.representant.nom )}}
+                        {{ form_row(registrationForm.representant.prenom )}}
+                        {{ form_row(registrationForm.representant.email )}}
+                        {{ form_row(registrationForm.representant.password )}}
+                        <h3>Votre entreprise</h3>
+                        {{ form_row(registrationForm.raison_sociale )}}
+                        {{ form_row(registrationForm.adresse )}}
+                        {{ form_row(registrationForm.code_postal )}}
+                        {{ form_row(registrationForm.ville )}}
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">S'inscrire</button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(registrationForm)}}
+            </div>
+        </div>
+    </section>
+
+    {% form_theme registrationForm 'bootstrap_5_horizontal_layout.html.twig' %}
+
+{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+

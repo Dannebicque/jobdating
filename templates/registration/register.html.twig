@@ -1,0 +1,27 @@
+{% extends 'base-speciale.html.twig' %}
+
+{% block header %}Créer votre compte{% endblock %}
+
+{% block content %}
+    <div class="mb-5">
+        <h2 class="cta-1 mb-0 text-primary">Créer votre compte</h2>
+    </div>
+
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-4 d-grid">
+            <a class="btn btn-outline-info d-block" href="{{ path('app_register_entreprise') }}">
+                Je suis une entreprise
+            </a>
+        </div>
+        <div class="col-4"></div>
+        <div class="col-4 d-grid">
+            <a class="btn btn-outline-info d-block" href="{{ path('app_register_etudiant') }}">
+                Je suis étudiant
+            </a>
+        </div>
+    </div>
+{% endblock %}
