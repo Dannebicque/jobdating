@@ -21,4 +21,20 @@ class EspaceEntrepriseController extends AbstractController
             'offres' => $offres,
         ]);
     }
+
+    #[Route('/espace-entreprise/candidatures', name: 'app_espace_entreprise_candidatures')]
+    public function candidatures(
+    ): Response
+    {
+        return $this->render('espace_entreprise/candidatures.html.twig', [
+        ]);
+    }
+
+    #[Route('/espace-entreprise/planning', name: 'app_espace_entreprise_planning')]
+    public function planning(
+    ): Response
+    {
+        return $this->render('espace_entreprise/planning.html.twig', [
+        ]);
+    }
 }

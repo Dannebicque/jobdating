@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Diplome;
 use App\Entity\Offre;
+use App\Entity\Parcours;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -28,9 +29,14 @@ class OffreType extends AbstractType
                 'asset_helper' => true,
                 'help' => 'Vous pouvez joindre un fichier PDF pour présenter les détails de l\'offre.',
             ])
-//            ->add('entreprise')
-            ->add('diplomes', EntityType::class, [
-                'class' => Diplome::class,
+//            ->add('diplomes', EntityType::class, [
+//                'class' => Diplome::class,
+//                'choice_label' => 'display',
+//                'multiple' => true,
+//                'expanded' => true,
+//            ])
+            ->add('parcours', EntityType::class, [
+                'class' => Parcours::class,
                 'choice_label' => 'display',
                 'multiple' => true,
                 'expanded' => true,

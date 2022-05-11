@@ -20,10 +20,10 @@
                     <td><a href="{{ absolute_url(asset('/pdf/offres/'~offre.offrePdf)) }}" target="_blank">Voir</a></td>
                 </tr>
                 <tr>
-                    <th>Diplôme(s)</th>
+                    <th>Parcours souhaités</th>
                     <td>
-                        {% for diplome in offre.diplomes %}
-                            <span class="badge bg-{{ diplome.color }}">{{ diplome.sigle }}</span>
+                        {% for parcour in offre.parcours %}
+                            <span class="badge bg-{{ parcour.diplome.color }}">{{ parcour.display }}</span>
                         {% endfor %}
                     </td>
                 </tr>

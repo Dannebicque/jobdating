@@ -43,9 +43,13 @@ class Offre
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTimeInterface $updatedAt = null;
 
+    #[ORM\ManyToMany(targetEntity: Parcours::class, inversedBy: 'offres')]
+    private Collection $parcours;
+
     public function __construct()
     {
         $this->diplomes = new ArrayCollection();
+        $this->parcours = new ArrayCollection();
     }
 
     public function setPdfFile(?File $pdfFile = null): void
@@ -161,6 +165,30 @@ class Offre
     public function setUpdatedAt(?DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Parcours>
+     */
+    public function getParcours(): Collection
+    {
+        return $this->parcours;
+    }
+
+    public function addParcour(Parcours $parcour): self
+    {
+        if (!$this->parcours->contains($parcour)) {
+            $this->parcours[] = $parcour;
+        }
+
+        return $this;
+    }
+
+    public function removeParcour(Parcours $parcour): self
+    {
+        $this->parcours->removeElement($parcour);
 
         return $this;
     }

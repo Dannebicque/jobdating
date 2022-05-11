@@ -56,8 +56,8 @@
                         <h3 class="card-title">{{ offre.titre }}</h3>
                         <p>{{ offre.descriptif|raw }}</p>
                         <p>
-                            {% for diplome in offre.diplomes %}
-                                <span class="badge bg-{{ diplome.color }}">{{ diplome.sigle }}</span>
+                            {% for diplome in offre.parcours %}
+                                <span class="badge bg-{{ diplome.color }}">{{ diplome.display }}</span>
                             {% endfor %}
                         </p>
                     </div>

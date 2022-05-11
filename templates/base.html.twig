@@ -96,9 +96,9 @@
             <div class="menu-container flex-grow-1">
                 <ul id="menu" class="menu">
                     <li>
-                        <a href="#">
+                        <a href="{{ asset('Brochure_Alternance_entreprises_2022.pdf')}}" target="_blank">
                             <i class="bi bi-info-circle icon"></i>
-                            <span class="label">Information alternance</span>
+                            <span class="label">Brochure Alternance</span>
                         </a>
                     </li>
                     {% if is_granted('ROLE_ETUDIANT') %}
@@ -129,7 +129,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{{ path('app_espace_entreprise_candidatures')}}">
                                 <i class="bi bi-mailbox icon"></i>
                                 <span class="label">Candidatures recues</span> {# todo: liste des canddiature avec ou
                                 sans
@@ -138,7 +138,7 @@
                         </li>
 
                         <li>
-                            <a href="{{ path('app_espace_etudiant') }}">
+                            <a href="{{ path('app_espace_entreprise_planning') }}">
                                 <i class="bi bi-calendar-date icon"></i>
                                 <span class="label">Mon planning</span>
                             </a>
