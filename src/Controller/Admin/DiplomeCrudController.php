@@ -26,6 +26,7 @@ class DiplomeCrudController extends AbstractCrudController
         return [
             TextField::new('libelle', 'Libellé'),
             TextField::new('sigle', 'Sigle'),
+            TextField::new('color', 'Couleur'),
         ];
     }
 

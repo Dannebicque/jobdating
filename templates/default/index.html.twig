@@ -1,7 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello DefaultController!{% endblock %}
+{% block header %}Accueil{% endblock %}
 
 {% block content %}
-
+    <div class="row">
+        <div class="col-12 mb-5">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Job Dating de l'IUT de Troyes du jeudi 2 juin 2022 - à partir de 14h00</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Vous êtes une entreprise</h2>
+                    <h3>1. Inscrivez vous pour déposer des offres et participer au jobdating</h3>
+                    <p><a href="{{ path('app_register_entreprise') }}">Je créé mon compte</a></p>
+                    <h3>2. Connctez vous pour gérer vos offres et accéder aux candidatures</h3>
+                    <p><a href="{{ path('app_espace_entreprise') }}">j'accéde à mon espace entreprise</a></p>
+                    <p>Vous pouvez créer un compte entreprise et accéder à votre espace personnel. Vous pourrez y
+                       déposer une ou plusieurs offres, suivre les candidatures des étudiants, accéder à leur CV, et
+                       suivre le planning des rendez-vous du jobdating.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card">
+                <div class="card-body">
+                    <h2>Vous êtes étudiant</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

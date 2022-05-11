@@ -1,34 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Offre{% endblock %}
+{% block header %}Offre {{ offre.titre }}{% endblock %}
 
-{% block body %}
-    <h1>Offre</h1>
+{% block content %}
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <tbody>
+                <tr>
+                    <th>Titre</th>
+                    <td>{{ offre.titre }}</td>
+                </tr>
+                <tr>
+                    <th>Descriptif</th>
+                    <td>{{ offre.descriptif }}</td>
+                </tr>
+                <tr>
+                    <th>Fiche de poste (PDF)</th>
+                    <td><a href="{{ absolute_url(asset('/pdf/offres/'~offre.offrePdf)) }}" target="_blank">Voir</a></td>
+                </tr>
+                <tr>
+                    <th>Diplôme(s)</th>
+                    <td>
+                        {% for diplome in offre.diplomes %}
+                            <span class="badge bg-{{ diplome.color }}">{{ diplome.sigle }}</span>
+                        {% endfor %}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ offre.id }}</td>
-            </tr>
-            <tr>
-                <th>Titre</th>
-                <td>{{ offre.titre }}</td>
-            </tr>
-            <tr>
-                <th>Descriptif</th>
-                <td>{{ offre.descriptif }}</td>
-            </tr>
-            <tr>
-                <th>OffrePdf</th>
-                <td>{{ offre.offrePdf }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_offre_index') }}">back to list</a>
-
-    <a href="{{ path('app_offre_edit', {'id': offre.id}) }}">edit</a>
-
-    {{ include('offre/_delete_form.html.twig') }}
+{% block bouton_header %}
+    <a href="{{ path('app_espace_entreprise') }}" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left-circle"></i>
+        Retour à l'espace entreprise
+    </a>
 {% endblock %}

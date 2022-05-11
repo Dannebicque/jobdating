@@ -13,14 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/espace/entreprise/offres')]
 class OffreController extends AbstractController
 {
-    #[Route('/', name: 'app_offre_index', methods: ['GET'])]
-    public function index(OffreRepository $offreRepository): Response
-    {
-        return $this->render('offre/index.html.twig', [
-            'offres' => $offreRepository->findAll(),
-        ]);
-    }
-
     #[Route('/new', name: 'app_offre_new', methods: ['GET', 'POST'])]
     public function new(Request $request, OffreRepository $offreRepository): Response
     {
@@ -56,7 +48,7 @@ class OffreController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $offreRepository->add($offre);
-            return $this->redirectToRoute('app_offre_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_espace_entreprise', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('offre/edit.html.twig', [
