@@ -22,10 +22,6 @@ class DiplomeRepository extends ServiceEntityRepository
         parent::__construct($registry, Diplome::class);
     }
 
-    /**
-     * @param \App\Entity\Diplome $entity
-     * @param bool                $flush
-     */
     public function add(Diplome $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
@@ -34,10 +30,6 @@ class DiplomeRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @param \App\Entity\Diplome $entity
-     * @param bool                $flush
-     */
     public function remove(Diplome $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
