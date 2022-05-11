@@ -7,13 +7,11 @@ use App\Entity\Representant;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RepresentantType extends AbstractType
+class Representant1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -35,22 +33,25 @@ class RepresentantType extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
-            ])
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les deux saisies de mot de passe doivent être identiques.',
-                'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmer le mot de passe'],
-            ])
-        ;
+            ]);
+
+        if ($options['edit'] === false) {
+            $builder->
+            add('sendPassword', ChoiceType::class, [
+                'choices' => ['Oui' => true, 'Non' => false],
+                'expanded' => true,
+                'multiple' => false,
+                'label' => 'Envoyer un mot de passe ?',
+                'help' => 'Cocher oui pour permettre un accès à l\'espace entreprise'
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Representant::class,
+            'edit' => false,
         ]);
     }
 }

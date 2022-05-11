@@ -23,10 +23,6 @@ class RepresentantRepository extends ServiceEntityRepository
         parent::__construct($registry, Representant::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Representant $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
@@ -35,10 +31,6 @@ class RepresentantRepository extends ServiceEntityRepository
         }
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Representant $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);

@@ -3,12 +3,60 @@
 {% block header %}Espace Entreprise{% endblock %}
 
 {% block content %}
-    <div class="row g-4 mb-4">
+
+    <div class="row mb-4">
+        <h2 class="small-title">Votre participation au JobDating</h2>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Contact principal</h3>
+                    <p>{{ entreprise.representant.display }}</p>
+                    <p>{{ entreprise.representant.email }}</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-warning" href="{{ path('app_representant_edit', {id:entreprise.representant.id}) }}">Modifier</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Personnes présentes</h3>
+                    <p>{{ entreprise.representant.display }}</p>
+                    {% for pers in entreprise.autresContacts %}
+                        <p>{{ pers.display }}</p>
+                    {% endfor %}
+                    <p class="small">Merci d'indiquer les personnes présentent lors du jobdating pour la bonne
+                                     organisation.</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary" href="{{ path('app_representant_new') }}">Ajouter</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Autres informations</h3>
+                    <p>Nb Stands : {{ entreprise.nbStands }}</p>
+                    <p>Période de présence
+                       : {% if entreprise.participe == true %}{{ entreprise.heureDebut|date('H:i') }} - {{ entreprise.heureFin|date
+                            ('H:i') }}{% else %} Ne sera pas présent{% endif %}</p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-warning" href="{{ path('app_entreprise_edit', {id:entreprise.id}) }}">Modifier</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <h2 class="small-title">Vos offres</h2>
         {% for offre in offres %}
             <div class="col-md-4 col-sm-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">{{ offre.titre }}</h4>
+                        <h3 class="card-title">{{ offre.titre }}</h3>
                         <p>{{ offre.descriptif|raw }}</p>
                         <p>
                             {% for diplome in offre.diplomes %}
@@ -17,7 +65,7 @@
                         </p>
                     </div>
                     <div class="card-footer">
-                        <a class="btn btn-primary" href="{{ path('app_offre_show', {id:offre.id}) }}">Voir</a>
+                        <a class="btn btn-info" href="{{ path('app_offre_show', {id:offre.id}) }}">Voir</a>
                         <a class="btn btn-warning" href="{{ path('app_offre_edit', {id:offre.id}) }}">Modifier
                         </a>
                         <button class="btn btn-danger">Supprimer</button>

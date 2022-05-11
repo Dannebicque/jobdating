@@ -23,10 +23,6 @@ class EntrepriseRepository extends ServiceEntityRepository
         parent::__construct($registry, Entreprise::class);
     }
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function add(Entreprise $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);

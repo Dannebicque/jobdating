@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Representant{% endblock %}
+
+{% block body %}
+    <h1>Representant</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Email</th>
+                <td>{{ representant.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ representant.roles ? representant.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ representant.password }}</td>
+            </tr>
+            <tr>
+                <th>IsVerified</th>
+                <td>{{ representant.isVerified ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ representant.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ representant.prenom }}</td>
+            </tr>
+            <tr>
+                <th>Civilite</th>
+                <td>{{ representant.civilite }}</td>
+            </tr>
+            <tr>
+                <th>Id</th>
+                <td>{{ representant.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_representant_index') }}">back to list</a>
+
+    <a href="{{ path('app_representant_edit', {'id': representant.id}) }}">edit</a>
+
+    {{ include('representant/_delete_form.html.twig') }}
+{% endblock %}

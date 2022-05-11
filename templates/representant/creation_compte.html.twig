@@ -1,0 +1,9 @@
+<h1>Bonjour {{ user.display }}</h1>
+
+<p>
+    Un compte vient d'être créé pour vous par {{ auteur.display }} dans le cadre du JobDating de l'IUT de Troyes du 2
+    juin 2022.<br>
+    Votre mot de passe est : {{ password }}
+</p>
+
+{{ include('registration/_footer_email.html.twig')}}

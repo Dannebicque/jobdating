@@ -18,8 +18,8 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'json')]
     private array $roles = [];
 
-    #[ORM\Column(type: 'string')]
-    private string $password;
+    #[ORM\Column(type: 'string', nullable: true)]
+    private ?string $password = null;
 
     #[ORM\Column(type: 'boolean')]
     private bool $isVerified = false;
@@ -77,12 +77,12 @@ abstract class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @see PasswordAuthenticatedUserInterface
      */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(?string $password): self
     {
         $this->password = $password;
 

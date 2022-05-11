@@ -34,7 +34,7 @@ class Offre
     #[ORM\Column(type: 'string', nullable: true)]
     private ?string $offrePdf = null;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $offrePdfSize = null;
 
     #[ORM\ManyToMany(targetEntity: Diplome::class, inversedBy: 'offres')]
@@ -146,7 +146,7 @@ class Offre
         return $this->offrePdfSize;
     }
 
-    public function setOffrePdfSize(int $offrePdfSize): self
+    public function setOffrePdfSize(?int $offrePdfSize): self
     {
         $this->offrePdfSize = $offrePdfSize;
 

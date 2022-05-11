@@ -16,6 +16,11 @@ class Representant extends User
     #[ORM\OneToOne(mappedBy: 'representant', targetEntity: Entreprise::class)]
     private ?Entreprise $entreprise = null;
 
+    #[ORM\ManyToOne(targetEntity: Entreprise::class, inversedBy: 'autresContacts')]
+    private ?Entreprise $contactEntreprise;
+
+    private bool $sendPassword = true;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -42,4 +47,34 @@ class Representant extends User
 
         return $this;
     }
+
+    public function getContactEntreprise(): ?Entreprise
+    {
+        return $this->contactEntreprise;
+    }
+
+    public function setContactEntreprise(?Entreprise $contactEntreprise): self
+    {
+        $this->contactEntreprise = $contactEntreprise;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSendPassword(): bool
+    {
+        return $this->sendPassword;
+    }
+
+    /**
+     * @param bool $sendPassword
+     */
+    public function setSendPassword(bool $sendPassword): void
+    {
+        $this->sendPassword = $sendPassword;
+    }
+
+
 }

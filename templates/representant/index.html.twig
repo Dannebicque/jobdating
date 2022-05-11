@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Representant index{% endblock %}
+
+{% block body %}
+    <h1>Representant index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>IsVerified</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Civilite</th>
+                <th>Id</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for representant in representants %}
+            <tr>
+                <td>{{ representant.email }}</td>
+                <td>{{ representant.roles ? representant.roles|json_encode : '' }}</td>
+                <td>{{ representant.password }}</td>
+                <td>{{ representant.isVerified ? 'Yes' : 'No' }}</td>
+                <td>{{ representant.nom }}</td>
+                <td>{{ representant.prenom }}</td>
+                <td>{{ representant.civilite }}</td>
+                <td>{{ representant.id }}</td>
+                <td>
+                    <a href="{{ path('app_representant_show', {'id': representant.id}) }}">show</a>
+                    <a href="{{ path('app_representant_edit', {'id': representant.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_representant_new') }}">Create new</a>
+{% endblock %}

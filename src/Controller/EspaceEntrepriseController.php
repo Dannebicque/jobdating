@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EspaceEntrepriseController extends AbstractController
 {
-    #[Route('/espace/entreprise', name: 'app_espace_entreprise')]
+    #[Route('/espace-entreprise', name: 'app_espace_entreprise')]
     public function index(
         OffreRepository $offreRepository
     ): Response
@@ -17,6 +17,7 @@ class EspaceEntrepriseController extends AbstractController
         $offres = $offreRepository->findByEntreprise($this->getUser());
 
         return $this->render('espace_entreprise/index.html.twig', [
+            'entreprise' => $this->getUser()->getEntreprise(),
             'offres' => $offres,
         ]);
     }

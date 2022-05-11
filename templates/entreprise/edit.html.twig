@@ -1,17 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Offre{% endblock %}
+{% block header %}Modification de l'entreprise {{ entreprise.raisonSociale }}{% endblock %}
 
 {% block content %}
     <div class="card">
         <div class="card-body">
-            {{ include('_form.html.twig') }}
+            {{ include('_form.html.twig', {'button_label': 'Mettre à jour'}) }}
         </div>
     </div>
-{% endblock %}
-
-{% block header %}
-    Ajouter une offre
 {% endblock %}
 
 {% block bouton_header %}

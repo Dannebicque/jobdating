@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/espace/entreprise/offres')]
+#[Route('/espace-entreprise/offres')]
 class OffreController extends AbstractController
 {
     #[Route('/new', name: 'app_offre_new', methods: ['GET', 'POST'])]

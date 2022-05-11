@@ -11,12 +11,11 @@ use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EntrepriseType extends AbstractType
+class Entreprise1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('representant', RepresentantType::class, ['label' => 'Representant de l\'entreprise', 'help' => 'Le contact principal de l\'entreprise pour le jobDating.'])
             ->add('raison_sociale', TextType::class)
             ->add('adresse', TextType::class)
             ->add('code_postal', TextType::class, ['attr' => ['maxlength' => 5]])
@@ -43,8 +42,7 @@ class EntrepriseType extends AbstractType
                 'minutes' => [00, 15, 30, 45],
                 'label' => 'Heure de fin',
                 'help' => 'Le JobDating est prévu de 14h00 à 18h00, avec des rendez-vous toutes les 30 minutes. Précisez si vous ne pouvez pas être présent jusque 18h.'
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
