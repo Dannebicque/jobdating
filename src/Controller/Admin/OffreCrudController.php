@@ -59,7 +59,7 @@ class OffreCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->onlyOnIndex(),
             TextField::new('titre'),
             AssociationField::new('entreprise', 'Entreprise')->setCrudController(EntrepriseCrudController::class),
             AssociationField::new('diplomes', 'Diplômes')->setCrudController(DiplomeCrudController::class)->setFormTypeOption('choice_label', 'sigle'),
