@@ -22,11 +22,11 @@ class OffreType extends AbstractType
                 'label' => 'Fichier PDF de l\'offre',
                 'required' => false,
                 'allow_delete' => true,
-                'delete_label' => 'Supprimer le fichier',
+                'delete_label' => 'Supprimer le fichier déjà présent',
                 'download_uri' => true,
-                'download_label' => 'Voir le fichier',
+                'download_label' => 'Un fichier est présent. Voir le fichier',
                 'asset_helper' => true,
-                'help' => 'Vous pouvez joindre un fichier PDF pour présenter les détails de l\'offre',
+                'help' => 'Vous pouvez joindre un fichier PDF pour présenter les détails de l\'offre.',
             ])
 //            ->add('entreprise')
             ->add('diplomes', EntityType::class, [
