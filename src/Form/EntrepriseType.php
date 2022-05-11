@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Entreprise;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -16,7 +17,12 @@ class EntrepriseType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('representant', RepresentantType::class, ['label' => 'Representant de l\'entreprise', 'help' => 'Le contact principal de l\'entreprise pour le jobDating.'])
+            ->add('representants', CollectionType::class, [
+                'label' => null,
+                'help' => 'Le contact principal de l\'entreprise pour le jobDating.',
+                'entry_type' => RepresentantType::class,
+                'allow_add' => false,
+            ])
             ->add('raison_sociale', TextType::class)
             ->add('adresse', TextType::class)
             ->add('code_postal', TextType::class, ['attr' => ['maxlength' => 5]])

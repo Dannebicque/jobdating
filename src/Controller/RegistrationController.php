@@ -50,36 +50,39 @@ class RegistrationController extends AbstractController
         EntityManagerInterface $entityManager
     ): Response {
         $entreprise = new Entreprise();
+        $representant = new Representant();
+        $entreprise->addRepresentant($representant);
         $form = $this->createForm(EntrepriseType::class, $entreprise);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
-            $entreprise->getRepresentant()?->setRoles(['ROLE_ENTREPRISE']);
-            $entreprise->getRepresentant()?->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $entreprise->getRepresentant(),
-                    $form->get('representant')->getData()->getPassword()
-                )
-            );
+        $representant = $entreprise->getRepresentants()->first();
+                $representant->setRoles(['ROLE_ENTREPRISE']);
+                $representant->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $representant,
+                        $form->get('representants')[0]->getData()->getPassword()
+                    )
+                );
 
-            $entityManager->persist($entreprise);
-            $entityManager->flush();
+                $entityManager->persist($entreprise);
+                $entityManager->flush();
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $entreprise->getRepresentant(),
-                (new TemplatedEmail())
-                    ->from(new Address(Constante::EMAIL_EXPEDITEUR, Constante::NOM_EXPEDITEUR))
-                    ->to($entreprise->getRepresentant()?->getEmail())
-                    ->subject('Merci de confirmer votre adresse email')
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-                    ->context(['user' => $entreprise->getRepresentant(), 'entreprise' => $entreprise])
-            );
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('app_verify_email', $representant,
+                    (new TemplatedEmail())
+                        ->from(new Address(Constante::EMAIL_EXPEDITEUR, Constante::NOM_EXPEDITEUR))
+                        ->to($representant->getEmail())
+                        ->subject('Merci de confirmer votre adresse email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                        ->context(['user' => $representant, 'entreprise' => $entreprise])
+                );
 
             // do anything else you need here, like send an email
 
             return $userAuthenticator->authenticateUser(
-                $entreprise->getRepresentant(),
+                $entreprise->getRepresentants()->first(),
                 $authenticator,
                 $request
             );

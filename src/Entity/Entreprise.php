@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\EntrepriseRepository;
 use DateTime;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -34,30 +35,27 @@ class Entreprise
     #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Offre::class)]
     private Collection $offres;
 
-    #[ORM\OneToOne(inversedBy: 'entreprise', targetEntity: Representant::class, cascade: ["persist"])]
-    private ?Representant $representant;
-
     #[ORM\Column(type: 'integer')]
     private ?int $nbStands = 1;
 
-    #[ORM\OneToMany(mappedBy: 'contactEntreprise', targetEntity: Representant::class)]
-    private Collection $autresContacts;
-
     #[ORM\Column(type: 'boolean')]
-    private ?bool $participe;
+    private ?bool $participe = true;
 
     #[ORM\Column(type: 'time')]
-    private ?\DateTimeInterface $heureDebut;
+    private ?DateTimeInterface $heureDebut;
 
     #[ORM\Column(type: 'time')]
-    private ?\DateTimeInterface $heureFin;
+    private ?DateTimeInterface $heureFin;
+
+    #[ORM\OneToMany(mappedBy: 'entreprise', targetEntity: Representant::class, cascade: ['persist'])]
+    private Collection $representants;
 
     public function __construct()
     {
         $this->setHeureDebut(new DateTime('14:00'));
         $this->setHeureFin(new DateTime('18:00'));
         $this->offres = new ArrayCollection();
-        $this->autresContacts = new ArrayCollection();
+        $this->representants = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -161,18 +159,6 @@ class Entreprise
         return $this;
     }
 
-    public function getRepresentant(): ?Representant
-    {
-        return $this->representant;
-    }
-
-    public function setRepresentant(?Representant $representant): self
-    {
-        $this->representant = $representant;
-
-        return $this;
-    }
-
     public function getNbStands(): ?int
     {
         return $this->nbStands;
@@ -181,36 +167,6 @@ class Entreprise
     public function setNbStands(int $nbStands): self
     {
         $this->nbStands = $nbStands;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Representant>
-     */
-    public function getAutresContacts(): Collection
-    {
-        return $this->autresContacts;
-    }
-
-    public function addAutresContact(Representant $autresContact): self
-    {
-        if (!$this->autresContacts->contains($autresContact)) {
-            $this->autresContacts[] = $autresContact;
-            $autresContact->setContactEntreprise($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAutresContact(Representant $autresContact): self
-    {
-        if ($this->autresContacts->removeElement($autresContact)) {
-            // set the owning side to null (unless already changed)
-            if ($autresContact->getContactEntreprise() === $this) {
-                $autresContact->setContactEntreprise(null);
-            }
-        }
 
         return $this;
     }
@@ -227,26 +183,56 @@ class Entreprise
         return $this;
     }
 
-    public function getHeureDebut(): ?\DateTimeInterface
+    public function getHeureDebut(): ?DateTimeInterface
     {
         return $this->heureDebut;
     }
 
-    public function setHeureDebut(\DateTimeInterface $heureDebut): self
+    public function setHeureDebut(DateTimeInterface $heureDebut): self
     {
         $this->heureDebut = $heureDebut;
 
         return $this;
     }
 
-    public function getHeureFin(): ?\DateTimeInterface
+    public function getHeureFin(): ?DateTimeInterface
     {
         return $this->heureFin;
     }
 
-    public function setHeureFin(\DateTimeInterface $heureFin): self
+    public function setHeureFin(DateTimeInterface $heureFin): self
     {
         $this->heureFin = $heureFin;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Representant>
+     */
+    public function getRepresentants(): Collection
+    {
+        return $this->representants;
+    }
+
+    public function addRepresentant(Representant $representant): self
+    {
+        if (!$this->representants->contains($representant)) {
+            $this->representants[] = $representant;
+            $representant->setEntreprise($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRepresentant(Representant $representant): self
+    {
+        if ($this->representants->removeElement($representant)) {
+            // set the owning side to null (unless already changed)
+            if ($representant->getEntreprise() === $this) {
+                $representant->setEntreprise(null);
+            }
+        }
 
         return $this;
     }

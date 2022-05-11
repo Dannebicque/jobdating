@@ -9,6 +9,7 @@ use App\Repository\RepresentantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\MailerInterface;
@@ -29,7 +30,7 @@ class RepresentantController extends AbstractController
         RepresentantRepository $representantRepository
     ): Response {
         $representant = new Representant();
-        $representant->setContactEntreprise($this->getUser()?->getEntreprise());
+        $representant->setEntreprise($this->getUser()?->getEntreprise());
         $form = $this->createForm(Representant1Type::class, $representant, ['edit' => false]);
         $form->handleRequest($request);
 
@@ -39,7 +40,6 @@ class RepresentantController extends AbstractController
             if ($representant->isSendPassword() === true) {
                 $password = ByteString::fromRandom(10)->toString();
                 $representant->setPassword($passwordHasher->hashPassword($representant, $password));
-                $representant->setPassword($representant->getEmail());
 
                 $mailer->send((new TemplatedEmail())
                     ->from(new Address(Constante::EMAIL_EXPEDITEUR, Constante::NOM_EXPEDITEUR))
@@ -79,6 +79,9 @@ class RepresentantController extends AbstractController
         Representant $representant,
         RepresentantRepository $representantRepository
     ): Response {
+        if ($representant->getEntreprise() !== $this->getUser()->getEntreprise()) {
+            throw new AccessDeniedException();
+        }
         $form = $this->createForm(Representant1Type::class, $representant, ['edit' => true]);
         $form->handleRequest($request);
 
@@ -100,10 +103,14 @@ class RepresentantController extends AbstractController
         Representant $representant,
         RepresentantRepository $representantRepository
     ): Response {
+        if ($representant->getEntreprise() !== $this->getUser()->getEntreprise()) {
+            throw new AccessDeniedException();
+        }
+
         if ($this->isCsrfTokenValid('delete' . $representant->getId(), $request->request->get('_token'))) {
             $representantRepository->remove($representant);
         }
 
-        return $this->redirectToRoute('app_representant_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_espace_entreprise', [], Response::HTTP_SEE_OTHER);
     }
 }

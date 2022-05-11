@@ -52,7 +52,8 @@ class OffreRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('o')
             ->innerJoin('o.entreprise', 'e')
-            ->where('e.representant = :user')
+            ->innerJoin('e.representants', 'r')
+            ->where('r.id = :user')
             ->setParameter('user', $user->getId())
             ->orderBy('o.titre', 'ASC')
             ->getQuery()

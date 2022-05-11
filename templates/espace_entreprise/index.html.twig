@@ -6,26 +6,23 @@
 
     <div class="row mb-4">
         <h2 class="small-title">Votre participation au JobDating</h2>
-        <div class="col-sm-4">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">Contact principal</h3>
-                    <p>{{ entreprise.representant.display }}</p>
-                    <p>{{ entreprise.representant.email }}</p>
-                </div>
-                <div class="card-footer">
-                    <a class="btn btn-warning" href="{{ path('app_representant_edit', {id:entreprise.representant.id}) }}">Modifier</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-4">
+        <div class="col-sm-8">
             <div class="card">
                 <div class="card-body">
                     <h3 class="card-title">Personnes présentes</h3>
-                    <p>{{ entreprise.representant.display }}</p>
-                    {% for pers in entreprise.autresContacts %}
-                        <p>{{ pers.display }}</p>
-                    {% endfor %}
+                    <table class="table">
+                        {% for pers in entreprise.representants %}
+                            <tr>
+                                <td>{{ pers.display }}</td>
+                                <td>{{ pers.email }}</td>
+                                <td>
+                                    <a class="btn btn-warning" href="{{ path('app_representant_edit', {id:pers.id}) }}">
+                                        Modifier
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
                     <p class="small">Merci d'indiquer les personnes présentent lors du jobdating pour la bonne
                                      organisation.</p>
                 </div>
