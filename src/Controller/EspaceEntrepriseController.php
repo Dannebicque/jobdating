@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\CandidatureRepository;
 use App\Repository\OffreRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,8 +13,7 @@ class EspaceEntrepriseController extends AbstractController
     #[Route('/espace-entreprise', name: 'app_espace_entreprise')]
     public function index(
         OffreRepository $offreRepository
-    ): Response
-    {
+    ): Response {
         $offres = $offreRepository->findByEntreprise($this->getUser());
 
         return $this->render('espace_entreprise/index.html.twig', [
@@ -24,15 +24,17 @@ class EspaceEntrepriseController extends AbstractController
 
     #[Route('/espace-entreprise/candidatures', name: 'app_espace_entreprise_candidatures')]
     public function candidatures(
-    ): Response
-    {
+        CandidatureRepository $candidatureRepository
+    ): Response {
+        $candidatures = $candidatureRepository->findByEntreprise($this->getUser()->getEntreprise());
+
         return $this->render('espace_entreprise/candidatures.html.twig', [
+            'candidatures' => $candidatures,
         ]);
     }
 
     #[Route('/espace-entreprise/planning', name: 'app_espace_entreprise_planning')]
-    public function planning(
-    ): Response
+    public function planning(): Response
     {
         return $this->render('espace_entreprise/planning.html.twig', [
         ]);

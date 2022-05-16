@@ -5,8 +5,32 @@
 {% endblock %}
 
 {% block content %}
-    <div class="alert alert-info">
-        Cette fonctionnalité sera accessible dans les prochains jours.
+    <div class="row">
+        {% for candidature in candidatures %}
+            <div class="col-md-6 col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5>{{ candidature.etudiant.display }}</h5>
+                        <p>Offre : {{ candidature.offre.titre }}</p>
+                        <p>Jobdating : {% if candidature.creneau != null %}Créneau réservé à {{ candidature.creneau|date
+                                ('H:i') }}{% else %} Pas de créneau réservé{% endif %}</p>
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <a href="{{ asset('pdf/cv/'~candidature.cv) }}" class="btn btn-primary" target="_blank">
+                                    Voir le CV
+                                </a>
+                            </div>
+                            <div class="col-md-6 col-sm-12">
+                                <a href="{{ asset('pdf/cv/'~candidature.lettre) }}" class="btn btn-primary"
+                                   target="_blank">
+                                    Voir la lettre de candidature
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
 

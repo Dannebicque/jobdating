@@ -1,11 +1,35 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    {% form_theme registrationForm 'bootstrap_5_horizontal_layout.html.twig'  %}
-{{ form(registrationForm)}}
+    <section class="scroll-section mb-2" id="but_secondaires">
+        <h2 class="small-title">Votre inscription</h2>
+        <div class="row row-cols-12 row-cols-sm-12 row-cols-xl-12 g-4 mb-5">
+            <div class="col">
+                {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
+                {{ form_start(registrationForm)}}
+                <div class="card h-100 border-primary">
+                    <div class="card-body">
+                        <h3>Votre identité</h3>
+                        {{ form_row(registrationForm.civilite )}}
+                        {{ form_row(registrationForm.nom )}}
+                        {{ form_row(registrationForm.prenom )}}
+                        {{ form_row(registrationForm.diplome )}}
+                        {{ form_row(registrationForm.email )}}
+                        {{ form_row(registrationForm.password )}}
+                    </div>
+                    <div class="card-footer">
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">S'inscrire</button>
+                        </div>
+                    </div>
+                </div>
+                {{ form_end(registrationForm)}}
+            </div>
+        </div>
+    </section>
 {% endblock %}
 
 {% block header %}
-
+    Création de votre compte
 {% endblock %}
 

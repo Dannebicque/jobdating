@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Diplome;
 use App\Entity\Offre;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -56,6 +57,19 @@ class OffreRepository extends ServiceEntityRepository
             ->where('r.id = :user')
             ->setParameter('user', $user->getId())
             ->orderBy('o.titre', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByDiplome(Diplome $diplome)
+    {
+        return $this->createQueryBuilder('o')
+            ->innerJoin('o.entreprise', 'e')
+            ->innerJoin('o.parcours', 'p')
+            ->where('p.diplome = :diplome')
+            ->setParameter('diplome', $diplome->getId())
+            ->orderBy('e.raison_sociale', 'ASC')
+            ->addOrderBy('o.titre', 'ASC')
             ->getQuery()
             ->getResult();
     }

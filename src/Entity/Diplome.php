@@ -30,10 +30,14 @@ class Diplome
     #[ORM\Column(type: 'string', length: 10)]
     private $color;
 
+    #[ORM\OneToMany(mappedBy: 'diplome', targetEntity: Etudiant::class)]
+    private $etudiants;
+
     public function __construct()
     {
         $this->parcours = new ArrayCollection();
         $this->offres = new ArrayCollection();
+        $this->etudiants = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -140,6 +144,36 @@ class Diplome
     public function setColor(string $color): self
     {
         $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Etudiant>
+     */
+    public function getEtudiants(): Collection
+    {
+        return $this->etudiants;
+    }
+
+    public function addEtudiant(Etudiant $etudiant): self
+    {
+        if (!$this->etudiants->contains($etudiant)) {
+            $this->etudiants[] = $etudiant;
+            $etudiant->setDiplome($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEtudiant(Etudiant $etudiant): self
+    {
+        if ($this->etudiants->removeElement($etudiant)) {
+            // set the owning side to null (unless already changed)
+            if ($etudiant->getDiplome() === $this) {
+                $etudiant->setDiplome(null);
+            }
+        }
 
         return $this;
     }

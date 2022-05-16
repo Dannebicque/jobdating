@@ -76,7 +76,7 @@ class RegistrationController extends AbstractController
                         ->to($representant->getEmail())
                         ->subject('Merci de confirmer votre adresse email')
                         ->htmlTemplate('registration/confirmation_email.html.twig')
-                        ->context(['user' => $representant, 'entreprise' => $entreprise])
+                        ->context(['user' => $representant])
                 );
 
             // do anything else you need here, like send an email
@@ -107,10 +107,11 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
+            $user->setRoles(["ROLE_ETUDIANT"]);
             $user->setPassword(
                 $userPasswordHasher->hashPassword(
                     $user,
-                    $form->get('plainPassword')->getData()
+                    $form->getData()->getPassword()
                 )
             );
 
@@ -122,8 +123,9 @@ class RegistrationController extends AbstractController
                 (new TemplatedEmail())
                     ->from(new Address(Constante::EMAIL_EXPEDITEUR, Constante::NOM_EXPEDITEUR))
                     ->to($user->getEmail())
-                    ->subject('Please Confirm your Email')
+                    ->subject('Merci de confirmer votre adresse email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
+                    ->context(['user' => $user])
             );
 
             // do anything else you need here, like send an email

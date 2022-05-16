@@ -1,0 +1,117 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}Offre {{ offre.titre }}{% endblock %}
+
+{% block content %}
+    <section class="scroll-section mb-4" id="but_secondaires">
+        <h2 class="small-title">Détails de l'offre</h2>
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Entreprise</th>
+                        <td>{{ offre.entreprise.raisonSociale }} ({{ offre.entreprise.codePostal }}
+                                                                 , {{ offre.entreprise.ville }})
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Titre</th>
+                        <td>{{ offre.titre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Descriptif</th>
+                        <td>{{ offre.descriptif }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fiche de poste (PDF)</th>
+                        <td><a href="{{ absolute_url(asset('/pdf/offres/'~offre.offrePdf)) }}" target="_blank">Voir</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Parcours souhaités</th>
+                        <td>
+                            {% for parcour in offre.parcours %}
+                                <span class="badge bg-{{ parcour.diplome.color }}">{{ parcour.display }}</span>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <section class="scroll-section mb-2" id="but_secondaires">
+        <h2 class="small-title">Déposer votre candidature et participer au jobdating</h2>
+        <div class="card">
+            <div class="card-body">
+                <div class="alert alert-info">
+                    Vous pouvez déposer et/ou modifier votre candidature pour cette offre en remplissant le formulaire
+                    ci-dessous.
+                    Vous pouvez également selectionner un créneau pour le JobDating.
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                        {% if candidature.updatedAt != null %}
+                            <div class="alert alert-success">Candidature déposée</div>{% endif %}
+                        {% form_theme form 'bootstrap_5_layout.html.twig' %}
+                        {{ form_start(form) }}
+                        {{ form_row(form) }}
+                        <button type="submit" class="btn btn-primary">{% if candidature.updatedAt != null %} Modifier
+                                votre candidature {% else %}Déposer votre candidature{% endif %}</button>
+                        {% if candidature.updatedAt != null %}
+                            <a href="#" class="text-danger">Retirer ma candidature</a>
+                        {% endif %}
+                        {{ form_end(form) }}
+                    </div>
+                    <div class="col-md-6 col-sm-12">
+                        <div class="row">
+                            {% for creneau in creneaux %}
+                                <div class="col-sm-12 col-md-3 g-2">
+                                    <div class="card {% if creneau.disponible == true %}bg-primary
+                                    text-white{% else %}bg-light{% endif %}">
+                                        <div class="card-body">
+                                            {{ creneau.debut|date('H:i') }} - {{ creneau.fin|date('H:i') }}
+                                            {% if creneau.disponible == true and (candidature != null and candidature
+                                            .creneau == null) or candidature == null %}
+                                                <button class="btn btn-success mt-2 sauvegardeCreneau"
+                                                        data-creneau="{{ creneau.debut|date('H:i') }}"
+                                                        data-url="{{ path('app_offre_etudiant_reserve_creneau', {id:offre.id}) }}">
+                                                    Choisir
+                                                </button>
+                                            {% elseif (candidature != null and candidature.creneau != null) %}
+                                                {# j'ai réservé un créneau #}
+                                                {% if candidature.creneau|date('H:i') == creneau.debut|date
+                                                    ('H:i') %}
+                                                    <p class="text-success">Votre créneau</p>
+                                                    <a href="{{ path('app_offre_etudiant_annule_creneau', {id:offre.id})}}"
+                                                       class="text-danger">Annuler ?</a>
+                                                {% else %}
+                                                    <p class="text-warning">Vous avez déjà un créneau</p>
+                                                {% endif %}
+                                            {% else %}
+                                                <button class="btn btn-danger mt-2" disabled>Indisponible</button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="alert alert-info mt-2">
+                                En selectionnant un créneau, vous vous engagez à participer au JobDating. Si aucun
+                                créneau n'est disponible vous pouvez tout de même deposer votre CV et lettre de
+                                motivation, les éléments seront communiqués aux entreprises.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block bouton_header %}
+    <a href="{{ path('app_espace_etudiant') }}" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left-circle"></i>
+        Retour aux offres
+    </a>
+{% endblock %}

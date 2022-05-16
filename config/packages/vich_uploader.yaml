@@ -10,3 +10,15 @@ vich_uploader:
             inject_on_load: true
             delete_on_update: true
             delete_on_remove: true
+        cv_pdf:
+            uri_prefix: /pdf/cv
+            upload_destination: '%kernel.project_dir%/public/pdf/cv'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true
+        lettre_pdf:
+            uri_prefix: /pdf/lettres
+            upload_destination: '%kernel.project_dir%/public/pdf/lettres'
+            inject_on_load: true
+            delete_on_update: true
+            delete_on_remove: true

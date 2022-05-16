@@ -46,10 +46,14 @@ class Offre
     #[ORM\ManyToMany(targetEntity: Parcours::class, inversedBy: 'offres')]
     private Collection $parcours;
 
+    #[ORM\OneToMany(mappedBy: 'offre', targetEntity: Candidature::class)]
+    private Collection $candidatures;
+
     public function __construct()
     {
         $this->diplomes = new ArrayCollection();
         $this->parcours = new ArrayCollection();
+        $this->candidatures = new ArrayCollection();
     }
 
     public function setPdfFile(?File $pdfFile = null): void
@@ -189,6 +193,36 @@ class Offre
     public function removeParcour(Parcours $parcour): self
     {
         $this->parcours->removeElement($parcour);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Candidature>
+     */
+    public function getCandidatures(): Collection
+    {
+        return $this->candidatures;
+    }
+
+    public function addCandidature(Candidature $candidature): self
+    {
+        if (!$this->candidatures->contains($candidature)) {
+            $this->candidatures[] = $candidature;
+            $candidature->setOffre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCandidature(Candidature $candidature): self
+    {
+        if ($this->candidatures->removeElement($candidature)) {
+            // set the owning side to null (unless already changed)
+            if ($candidature->getOffre() === $this) {
+                $candidature->setOffre(null);
+            }
+        }
 
         return $this;
     }

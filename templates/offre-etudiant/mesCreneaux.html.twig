@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block header %}Vos créneaux pour le jobdating{% endblock %}
+
+{% block content %}
+    <section class="scroll-section mb-2" id="but_secondaires">
+        <h2 class="small-title">Vos créneaux pour le jobdating</h2>
+        <div class="card">
+            <div class="card-body">
+
+                <div class="row">
+                    <div class="col-md-12 col-sm-12">
+                        <div class="row">
+                            {% for candidature in candidatures %}
+                                <div class="col-sm-12 col-md-3 g-2">
+                                    <div class="card bg-primary text-white">
+                                        <div class="card-body">
+                                            {{ candidature.creneau|date('H:i') }}
+                                            : {{ candidature.offre.entreprise.raisonSociale }}<br>
+                                            Salle : {{ candidature.offre.entreprise.salle }}
+                                            <br>
+                                            <a href="{{ path('app_offre_etudiant_show', {id:candidature.offre
+                                            .id}) }}"
+                                               class="btn btn-info">Voir l'offre</a>&nbsp;
+                                            <a href="{{ path('app_offre_etudiant_annule_creneau', {id:candidature.offre
+                                            .id}) }}"
+                                               class="btn btn-danger">Annuler ?</a>
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="alert alert-info mt-2">
+                                En selectionnant un créneau, vous vous engagez à participer au JobDating. Si aucun
+                                créneau n'est disponible vous pouvez tout de même deposer votre CV et lettre de
+                                motivation, les éléments seront communiqués aux entreprises.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block bouton_header %}
+    <a href="{{ path('app_espace_etudiant') }}" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left-circle"></i>
+        Retour aux offres
+    </a>
+{% endblock %}

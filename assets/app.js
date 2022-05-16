@@ -7,11 +7,12 @@
 
 // any CSS you import will output into a single css file (app.css in this case)
 
-import './styles/app.scss';
+import './styles/app.scss'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
 // start the Stimulus application
 import './bootstrap'
+
 window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.min')
 
 import './js/vendor/OverlayScrollbars.min'
@@ -21,6 +22,7 @@ import './js/base/init'
 import './js/common'
 import './js/scripts'
 import './js/base/loader'
+import {post} from './js/fetch'
 
 var toastElList = [].slice.call(document.querySelectorAll('.toast'))
 var toastList = toastElList.map(function (toastEl) {
@@ -36,8 +38,8 @@ var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
 // Without jQuery
 // Define a convenience method and use it
 const ready = (callback) => {
-  if (document.readyState != "loading") callback();
-  else document.addEventListener("DOMContentLoaded", callback);
+  if (document.readyState != 'loading') callback()
+  else document.addEventListener('DOMContentLoaded', callback)
 }
 
 ready(() => {
@@ -46,25 +48,28 @@ ready(() => {
     toast.show()
   })
 
-  document.querySelectorAll('.changeSemestreRessources').forEach((elem) => {
-    elem.addEventListener('click', updateBoutonRessource)
+  document.querySelectorAll('.sauvegardeCreneau').forEach((elem) => {
+    elem.addEventListener('click', sauvegardeCreneau)
   })
 
-  function updateBoutonRessource(e) {
-    const sem = e.target.dataset.semestre;
-    document.getElementById('boutonAddRessource').setAttribute('href', Routing.generate('formation_apc_ressource_new', {semestre: sem}));
-  }
-    document.querySelectorAll('.changeSemestreSae').forEach((elem) => {
-    elem.addEventListener('click', updateBoutonSae)
-  })
+  function sauvegardeCreneau (e) {
+    console.log('sauvegardeCreneau')
+    e.preventDefault()
+    let creneau = e.target.dataset.creneau
+    let url = e.target.dataset.url
 
-  function updateBoutonSae(e)
-  {
-    const sem = e.target.dataset.semestre;
-    document.getElementById('boutonAddSae').setAttribute('href', Routing.generate('formation_apc_sae_new', {semestre:sem}));
+    post(url, {creneau: creneau}).then(function (response) {
+      console.log(response.route)
+
+        toastList.forEach((toast) => {
+          toast.show()
+        })
+      window.location.href = response.route
+
+    })
   }
 
-});
+})
 
 
 

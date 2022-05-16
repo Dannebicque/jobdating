@@ -103,19 +103,13 @@
                     </li>
                     {% if is_granted('ROLE_ETUDIANT') %}
                         <li>
-                            <a href="#">
-                                <i class="bi bi-newspaper icon"></i>
-                                <span class="label">Offres</span>
-                            </a>
-                        </li>
-                        <li>
                             <a href="{{ path('app_espace_etudiant') }}">
                                 <i class="bi bi-house-door icon"></i>
                                 <span class="label">Mon espace</span>
                             </a>
                         </li>
                         <li>
-                            <a href="{{ path('app_espace_etudiant') }}">
+                            <a href="{{ path('app_espace_etudiant_mes_creneaux') }}">
                                 <i class="bi bi-calendar-date icon"></i>
                                 <span class="label">Mes créneaux</span>
                             </a>
