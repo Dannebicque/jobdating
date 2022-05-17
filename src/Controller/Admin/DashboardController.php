@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Candidature;
 use App\Entity\Diplome;
 use App\Entity\Entreprise;
 use App\Entity\Etudiant;
@@ -53,7 +54,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Offres', 'fas fa-list', Offre::class);
         yield MenuItem::section('Etudiant', 'fas fa-graduation-cap');
         yield MenuItem::linkToCrud('Etudiants inscrits', 'fas fa-users', Etudiant::class);
-        yield MenuItem::linkToCrud('Planning', 'fas fa-calendar', Diplome::class);
+        yield MenuItem::linkToCrud('Candidatures', 'fas fa-calendar', Candidature::class);
         yield MenuItem::section('Settings', 'fas fa-list');
         yield MenuItem::linkToCrud('Diplômes', 'fas fa-list', Diplome::class);
         yield MenuItem::linkToCrud('Parcours', 'fas fa-list', Parcours::class);

@@ -226,4 +226,19 @@ class Offre
 
         return $this;
     }
+
+    public function getDiplome(): array
+    {
+        $t = [];
+        foreach ($this->parcours as $parcours) {
+            $t[] = $parcours->getDiplome()->getId();
+        }
+
+        return $t;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getEntreprise()->getRaisonSociale();
+    }
 }

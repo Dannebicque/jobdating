@@ -19,12 +19,18 @@ class Etudiant extends User
     private ?Diplome $diplome;
 
     #[ORM\OneToMany(mappedBy: 'etudiant', targetEntity: Candidature::class)]
-    private $candidatures;
+    private Collection $candidatures;
 
     public function __construct()
     {
         $this->candidatures = new ArrayCollection();
     }
+
+    public function __toString(): string
+    {
+        return $this->display();
+    }
+
 
     public function getId(): ?int
     {

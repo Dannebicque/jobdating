@@ -6,9 +6,7 @@ use App\Classes\Creneaux;
 use App\Entity\Candidature;
 use App\Entity\Offre;
 use App\Form\CandidatureType;
-use App\Form\OffreType;
 use App\Repository\CandidatureRepository;
-use App\Repository\OffreRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,7 +37,12 @@ class OffreEtudiantController extends AbstractController
         EntityManagerInterface $entityManager,
         Offre $offre
     ): Response {
-        //todo: vérifier si l'offre est publiée dans le bon diplôme
+
+        if (!in_array($this->getUser()?->getDiplome()?->getId(), $offre->getDiplome(), true)) {
+            $this->addFlash('danger', 'Vous ne pouvez pas accéder à cette offre.');
+
+            return $this->redirectToRoute('app_espace_etudiant_mes_creneaux');
+        }
 
         $candidature = $candidatureRepository->findOneBy(['offre' => $offre, 'etudiant' => $this->getUser()]);
         $creneaux->setEntreprise($offre->getEntreprise());
