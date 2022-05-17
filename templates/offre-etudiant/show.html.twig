@@ -59,10 +59,15 @@
                         {{ form_row(form) }}
                         <button type="submit" class="btn btn-primary">{% if candidature.updatedAt != null %} Modifier
                                 votre candidature {% else %}Déposer votre candidature{% endif %}</button>
-                        {% if candidature.updatedAt != null %}
-                            <a href="#" class="text-danger">Retirer ma candidature</a>
-                        {% endif %}
                         {{ form_end(form) }}
+                        {% if candidature.updatedAt != null %}
+                            <form method="post" action="{{ path('app_candidature_delete', {'id': candidature.id}) }}"
+                                  onsubmit="return confirm
+                            ('Etes vous sûr de supprimer votre candidature ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ candidature.id) }}">
+                                <button class="btn btn-danger mt-2">Retirer ma candidature</button>
+                            </form>
+                        {% endif %}
                     </div>
                     <div class="col-md-6 col-sm-12">
                         <div class="row">
@@ -84,7 +89,7 @@
                                                 {% if candidature.creneau|date('H:i') == creneau.debut|date
                                                     ('H:i') %}
                                                     <p class="text-success">Votre créneau</p>
-                                                    <a href="{{ path('app_offre_etudiant_annule_creneau', {id:offre.id})}}"
+                                                    <a href="{{ path('app_offre_etudiant_annule_creneau', {id:offre.id}) }}"
                                                        class="text-danger">Annuler ?</a>
                                                 {% else %}
                                                     <p class="text-warning">Vous avez déjà un créneau</p>

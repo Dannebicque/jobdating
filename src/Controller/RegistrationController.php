@@ -6,13 +6,10 @@ use App\Entity\Constante;
 use App\Entity\Entreprise;
 use App\Entity\Etudiant;
 use App\Entity\Representant;
-use App\Entity\User;
 use App\Form\EntrepriseType;
 use App\Form\EtudiantType;
-use App\Form\RegistrationFormType;
 use App\Repository\EtudiantRepository;
 use App\Repository\RepresentantRepository;
-use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use App\Security\LoginFormAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,6 +23,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
+#[Route("/register")]
 class RegistrationController extends AbstractController
 {
     private EmailVerifier $emailVerifier;
@@ -35,13 +33,13 @@ class RegistrationController extends AbstractController
         $this->emailVerifier = $emailVerifier;
     }
 
-    #[Route('/register', name: 'app_register')]
+    #[Route('/', name: 'app_register')]
     public function register(): Response
     {
         return $this->render('registration/register.html.twig');
     }
 
-    #[Route('/register-entreprise', name: 'app_register_entreprise')]
+    #[Route('/entreprise', name: 'app_register_entreprise')]
     public function registerEntreprise(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
@@ -93,7 +91,7 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/register-etudiant', name: 'app_register_etudiant')]
+    #[Route('/etudiant', name: 'app_register_etudiant')]
     public function registerEtudiant(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,

@@ -123,4 +123,22 @@ class OffreEtudiantController extends AbstractController
 
         return $this->redirectToRoute('app_offre_etudiant_show', ['id' => $offre->getId()]);
     }
+
+    #[Route('/candidature/{id}', name: 'app_candidature_delete', methods: ['POST'])]
+    public function delete(
+        Request $request,
+        Candidature $candidature,
+        CandidatureRepository $candidatureRepository
+    ): Response {
+        if ($this->isCsrfTokenValid('delete' . $candidature->getId(), $request->request->get('_token'))) {
+            if ($candidature->getEtudiant() === $this->getUser()) {
+                $candidatureRepository->remove($candidature);
+                $this->addFlash('success', 'Candidature supprimée');
+            } else {
+                $this->addFlash('danger', 'Erreur lors de la suppression de la candidature.');
+            }
+        }
+
+        return $this->redirectToRoute('app_espace_etudiant', [], Response::HTTP_SEE_OTHER);
+    }
 }
