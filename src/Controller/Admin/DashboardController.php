@@ -55,8 +55,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::section('Etudiant', 'fas fa-graduation-cap');
         yield MenuItem::linkToCrud('Etudiants inscrits', 'fas fa-users', Etudiant::class);
         yield MenuItem::linkToCrud('Candidatures', 'fas fa-calendar', Candidature::class);
-        yield MenuItem::section('Settings', 'fas fa-list');
-        yield MenuItem::linkToCrud('Diplômes', 'fas fa-list', Diplome::class);
-        yield MenuItem::linkToCrud('Parcours', 'fas fa-list', Parcours::class);
+        yield MenuItem::section('Settings', 'fas fa-list')->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Diplômes', 'fas fa-list', Diplome::class)->setPermission('ROLE_ADMIN');
+        yield MenuItem::linkToCrud('Parcours', 'fas fa-list', Parcours::class)->setPermission('ROLE_ADMIN');
     }
 }
