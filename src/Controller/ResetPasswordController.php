@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Admin;
+use App\Entity\Constante;
+use App\Entity\Etudiant;
+use App\Entity\Representant;
 use App\Entity\User;
 use App\Form\ChangePasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
@@ -40,18 +44,14 @@ class ResetPasswordController extends AbstractController
     #[Route('/', name: 'app_forgot_password_request')]
     public function request(Request $request, MailerInterface $mailer): Response
     {
-        $form = $this->createForm(ResetPasswordRequestFormType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($request->isMethod('POST')) {
             return $this->processSendingPasswordResetEmail(
-                $form->get('email')->getData(),
+                $request->request->get('email'),
                 $mailer
             );
         }
 
         return $this->render('reset_password/request.html.twig', [
-            'requestForm' => $form->createView(),
         ]);
     }
 
@@ -133,9 +133,21 @@ class ResetPasswordController extends AbstractController
 
     private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): RedirectResponse
     {
-        $user = $this->entityManager->getRepository(User::class)->findOneBy([
+        $user = $this->entityManager->getRepository(Etudiant::class)->findOneBy([
             'email' => $emailFormData,
         ]);
+
+        if ($user === null) {
+            $user = $this->entityManager->getRepository(Representant::class)->findOneBy([
+                'email' => $emailFormData,
+            ]);
+
+            if ($user === null) {
+                $user = $this->entityManager->getRepository(Admin::class)->findOneBy([
+                    'email' => $emailFormData,
+                ]);
+            }
+        }
 
         // Do not reveal whether a user account was found or not.
         if (!$user) {
@@ -159,9 +171,9 @@ class ResetPasswordController extends AbstractController
         }
 
         $email = (new TemplatedEmail())
-            ->from(new Address('contact@iut-troyes.fr', 'Job Dating IUT de Troyes'))
+            ->from(new Address(Constante::EMAIL_EXPEDITEUR, Constante::NOM_EXPEDITEUR))
             ->to($user->getEmail())
-            ->subject('Your password reset request')
+            ->subject('Récupération de votre mot de passe')
             ->htmlTemplate('reset_password/email.html.twig')
             ->context([
                 'resetToken' => $resetToken,
