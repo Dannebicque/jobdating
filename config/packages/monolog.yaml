@@ -41,17 +41,15 @@ when@prod:
     monolog:
         handlers:
             main:
-                type: stream
-                #type: rotating_file
-                #max_files: 365
+                type: rotating_file
+                max_files: 365
                 path: "%kernel.logs_dir%/%kernel.environment%.all.log"
                 level: info
                 buffer_size: 50 # How many messages should be saved? Prevent memory leaks
                 channels: [ "!php" ] # retire les info de PHP?
             login:
-                type: stream
-                #type: rotating_file
-                #max_files: 365
+                type: rotating_file
+                max_files: 365
                 path: "%kernel.logs_dir%/%kernel.environment%.auth.log"
                 level: info
                 channels: security
@@ -62,9 +60,8 @@ when@prod:
                 handler: streamed_error
                 buffer_size: 50 # How many messages should be saved? Prevent memory leaks
             streamed_error:
-                type: stream
-                #type: rotating_file
-                #max_files: 10
+                type: rotating_file
+                max_files: 10
                 path: "%kernel.logs_dir%/%kernel.environment%.error.log"
                 level: info
                 buffer_size: 50 # How many messages should be saved? Prevent memory leaks
@@ -76,8 +73,7 @@ when@prod:
                 type: group
                 members: [ streamed_critical ] #, buffered_critical]
             streamed_critical:
-                type: stream
-                #type: rotating_file
-                #max_files: 10
+                type: rotating_file
+                max_files: 10
                 path: "%kernel.logs_dir%/%kernel.environment%.critical.log"
                 level: critical
