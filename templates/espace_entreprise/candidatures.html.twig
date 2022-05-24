@@ -16,15 +16,19 @@
                                 ('H:i') }}{% else %} Pas de créneau réservé{% endif %}</p>
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
+                                {% if candidature.cv != null %}
                                 <a href="{{ asset('pdf/cv/'~candidature.cv) }}" class="btn btn-primary" target="_blank">
                                     Voir le CV
                                 </a>
+                                {% endif %}
                             </div>
                             <div class="col-md-6 col-sm-12">
+                                {% if candidature.lettre != null %}
                                 <a href="{{ asset('pdf/cv/'~candidature.lettre) }}" class="btn btn-primary"
                                    target="_blank">
                                     Voir la lettre de candidature
                                 </a>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
