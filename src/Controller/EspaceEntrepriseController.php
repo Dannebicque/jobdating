@@ -34,9 +34,13 @@ class EspaceEntrepriseController extends AbstractController
     }
 
     #[Route('/espace-entreprise/planning', name: 'app_espace_entreprise_planning')]
-    public function planning(): Response
-    {
+    public function planning(CandidatureRepository $candidatureRepository
+    ): Response {
+        $candidatures = $candidatureRepository->findByEntreprise($this->getUser()->getEntreprise());
+
         return $this->render('espace_entreprise/planning.html.twig', [
+            'candidatures' => $candidatures,
+            'entreprise' => $this->getUser()->getEntreprise(),
         ]);
     }
 }

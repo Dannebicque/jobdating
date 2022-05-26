@@ -12,8 +12,11 @@
                     <div class="card-body">
                         <h5>{{ candidature.etudiant.display }}</h5>
                         <p>Offre : {{ candidature.offre.titre }}</p>
-                        <p>Jobdating : {% if candidature.creneau != null %}Créneau réservé à {{ candidature.creneau|date
-                                ('H:i') }}{% else %} Pas de créneau réservé{% endif %}</p>
+                        <p>Jobdating : {% if candidature.creneau != null %}
+                                <span class="badge bg-success">Créneau réservé à {{ candidature.creneau|date
+                                    ('H:i') }}, stand {{ candidature.stand }}</span>
+                            {% else %} <span class="badge bg-warning">Pas de créneau réservé</span>{% endif
+                            %}</p>
                         <div class="row">
                             <div class="col-md-6 col-sm-12">
                                 {% if candidature.cv != null %}

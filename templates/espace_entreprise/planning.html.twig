@@ -5,8 +5,45 @@
 {% endblock %}
 
 {% block content %}
-    <div class="alert alert-info">
-        Cette fonctionnalité sera accessible dans les prochains jours.
+    <div class="row">
+        {% for i in 1..entreprise.nbStands %}
+            <h3>Stand N° {{ i }}</h3>
+            {% for candidature in candidatures|filter(candidature => candidature.stand == i and candidature.creneau
+                != null) %}
+                <div class="col-md-6 col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3><span class="badge bg-primary">{{ candidature.creneau|date('H:i') }}</span></h3>
+                            <h4>{{ candidature.etudiant.display }}</h4>
+                            <p>Offre : {{ candidature.offre.titre }}</p>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    {% if candidature.cv != null %}
+                                        <a href="{{ asset('pdf/cv/'~candidature.cv) }}" class="btn btn-primary" target="_blank">
+                                            Voir le CV
+                                        </a>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    {% if candidature.lettre != null %}
+                                        <a href="{{ asset('pdf/cv/'~candidature.lettre) }}" class="btn btn-primary"
+                                           target="_blank">
+                                            Voir la lettre de candidature
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="alert alert-warning">
+                    Pas de rendez-vous pour le stand {{ i }}
+                </div>
+            {% endfor %}
+        {% endfor %}
     </div>
 {% endblock %}
+
+
 
