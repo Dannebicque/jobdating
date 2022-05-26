@@ -47,10 +47,16 @@ class Candidature
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?DateTimeInterface $updatedAt = null;
 
-    public function __construct(?Offre $offre, ?Etudiant $etudiant)
+    #[ORM\Column(type: 'integer')]
+    private ?int $stand = 1;
+
+    //ALTER TABLE candidature ADD stand INT NOT NULL
+
+    public function __construct(?Offre $offre, ?Etudiant $etudiant, int $stand = 1)
     {
         $this->offre = $offre;
         $this->etudiant = $etudiant;
+        $this->stand = $stand;
     }
 
 
@@ -195,5 +201,17 @@ class Candidature
     public function hasLettre(): string
     {
         return $this->lettre !== null ? 'Lettre Déposée' : 'Pas de Lettre';
+    }
+
+    public function getStand(): ?int
+    {
+        return $this->stand;
+    }
+
+    public function setStand(int $stand): self
+    {
+        $this->stand = $stand;
+
+        return $this;
     }
 }

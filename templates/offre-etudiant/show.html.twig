@@ -81,15 +81,16 @@
                                             .creneau == null) or candidature == null %}
                                                 <button class="btn btn-success mt-2 sauvegardeCreneau"
                                                         data-creneau="{{ creneau.debut|date('H:i') }}"
-                                                        data-url="{{ path('app_offre_etudiant_reserve_creneau', {id:offre.id}) }}">
+                                                        data-url="{{ path('app_offre_etudiant_reserve_creneau',
+                                                            {id:offre.id, stand: creneau.stands}) }}">
                                                     Choisir
                                                 </button>
                                             {% elseif (candidature != null and candidature.creneau != null) %}
                                                 {# j'ai réservé un créneau #}
                                                 {% if candidature.creneau|date('H:i') == creneau.debut|date
-                                                    ('H:i') %}
+                                                    ('H:i') and creneau.stands == candidature.stand %}
                                                     <p class="text-success">Votre créneau</p>
-                                                    <a href="{{ path('app_offre_etudiant_annule_creneau', {id:offre.id}) }}"
+                                                    <a href="{{ path('app_offre_etudiant_annule_creneau', {id:offre.id, stand: creneau.stands}) }}"
                                                        class="text-danger">Annuler ?</a>
                                                 {% else %}
                                                     <p class="text-warning">Vous avez déjà un créneau</p>

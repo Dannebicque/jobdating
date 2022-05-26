@@ -36,11 +36,14 @@ class Creneaux
         while ($creneau <= $fin) {
             $fc = clone $creneau;
             $fc = $fc->add(new \DateInterval('PT30M'));
-            $tCreneaux[] = [
-                'debut' => $creneau,
-                'fin' => $fc,
-                'disponible' => !array_key_exists($creneau->format('H:i'), $tCandidatures)
-            ];
+            for ($i = 1; $i <= $this->entreprise->getNbStands(); $i++) {
+                $tCreneaux[] = [
+                    'stands' => $i,
+                    'debut' => $creneau,
+                    'fin' => $fc,
+                    'disponible' => !array_key_exists($creneau->format('H:i'), $tCandidatures[$i])
+                ];
+            }
             $creneau = $fc;
         }
 
@@ -52,9 +55,13 @@ class Creneaux
         $tCandiatures = [];
         $candidatures = $this->candidatureRepository->findByEntreprise($this->entreprise);
 
+        for ($i = 1; $i <= $this->entreprise->getNbStands(); $i++) {
+            $tCandiatures[$i] = [];
+        }
+
         foreach ($candidatures as $candidature) {
             if ($candidature->getCreneau() !== null) {
-                $tCandiatures[$candidature->getCreneau()->format('H:i')] = $candidature;
+                $tCandiatures[$candidature->getStand()][$candidature->getCreneau()->format('H:i')] = $candidature;
             }
         }
 
@@ -62,11 +69,13 @@ class Creneaux
         return $tCandiatures;
     }
 
-    public function verifieSiToujoursDisponible(\DateTimeInterface $creaneau): bool
+    public function verifieSiToujoursDisponible(\DateTimeInterface $creaneau, int $stand): bool
     {
         $tCandidatures = $this->getCreneauxCandidatures();
-        if (array_key_exists($creaneau->format('H:i'), $tCandidatures)) {
-            return false;
+        if (array_key_exists($stand, $tCandidatures)) {
+            if (array_key_exists($creaneau->format('H:i'), $tCandidatures[$stand])) {
+                return false;
+            }
         }
 
         return true;

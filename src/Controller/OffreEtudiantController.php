@@ -67,10 +67,11 @@ class OffreEtudiantController extends AbstractController
     }
 
 
-    #[Route('/{id}/reserve', name: 'app_offre_etudiant_reserve_creneau', methods: ['GET|POST'])]
+    #[Route('/{id}/{stand}/reserve', name: 'app_offre_etudiant_reserve_creneau', methods: ['GET|POST'])]
     public function reserveCreneau(
         EntityManagerInterface $entityManager,
         Creneaux $creneaux,
+        int $stand,
         CandidatureRepository $candidatureRepository,
         Request $request,
         Offre $offre
@@ -82,11 +83,11 @@ class OffreEtudiantController extends AbstractController
         $candidature = $candidatureRepository->findOneBy(['offre' => $offre, 'etudiant' => $this->getUser()]);
         $creneaux->setEntreprise($offre->getEntreprise());
         if ($candidature === null) {
-            $candidature = new Candidature($offre, $this->getUser());
+            $candidature = new Candidature($offre, $this->getUser(), $stand);
         }
 
         //vérifier si le créneau est disponible
-        if ($creneaux->verifieSiToujoursDisponible($heure) === false) {
+        if ($creneaux->verifieSiToujoursDisponible($heure, $stand) === false) {
             $this->addFlash('danger', 'Ce créneau n\'est plus disponible.');
 
             return $this->json(['route' => $this->generateUrl('app_offre_etudiant_show', ['id' => $offre->getId()])],
@@ -102,13 +103,14 @@ class OffreEtudiantController extends AbstractController
         return $this->json(['route' => $this->generateUrl('app_offre_etudiant_show', ['id' => $offre->getId()])]);
     }
 
-    #[Route('/{id}/annule', name: 'app_offre_etudiant_annule_creneau', methods: ['GET|POST'])]
+    #[Route('/{id}/{stand}annule', name: 'app_offre_etudiant_annule_creneau', methods: ['GET|POST'])]
     public function annuleCreneau(
         EntityManagerInterface $entityManager,
         CandidatureRepository $candidatureRepository,
-        Offre $offre
+        Offre $offre,
+        int $stand
     ): RedirectResponse {
-        $candidature = $candidatureRepository->findOneBy(['offre' => $offre, 'etudiant' => $this->getUser()]);
+        $candidature = $candidatureRepository->findOneBy(['offre' => $offre, 'etudiant' => $this->getUser(), 'stand' => $stand]);
         if ($candidature === null) {
             $this->addFlash('danger', 'Vous n\'avez aucune candidature pour cette offre.');
 
