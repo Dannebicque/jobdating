@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class CandidatureCrudController extends AbstractCrudController
 {
@@ -23,7 +24,9 @@ class CandidatureCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnIndex(),
             AssociationField::new('offre', 'Offre')->setCrudController(OffreCrudController::class),
-            DateTimeField::new('creneau')->setFormat('none','HH:mm'),
+            DateTimeField::new('creneau')->setFormat('none', 'HH:mm'),
+            TextField::new('hasCV'),
+            TextField::new('hasLettre'),
             AssociationField::new('etudiant', 'Etudiant')->setCrudController(EtudiantCrudController::class),
 
         ];
@@ -36,8 +39,7 @@ class CandidatureCrudController extends AbstractCrudController
             // you can set permissions for built-in actions in the same way
             ->setPermission(Action::NEW, 'ROLE_ADMIN')
             ->setPermission(Action::EDIT, 'ROLE_ADMIN')
-            ->setPermission(Action::DELETE, 'ROLE_ADMIN')
-            ;
+            ->setPermission(Action::DELETE, 'ROLE_ADMIN');
     }
 
 }

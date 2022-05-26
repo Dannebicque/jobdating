@@ -186,4 +186,14 @@ class Candidature
     {
         return $this->lettrePdfFile;
     }
+
+    public function hasCV(): string
+    {
+        return $this->cv !== null ? 'CV Déposé' : 'Pas de CV';
+    }
+
+    public function hasLettre(): string
+    {
+        return $this->lettre !== null ? 'Lettre Déposée' : 'Pas de Lettre';
+    }
 }
