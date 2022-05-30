@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+{% for entreprise in entreprises %}
+    {% for stand in 1..entreprise.nbStands %}
+        <table style="width:100%">
+            <tr>
+                <td style="width:33%">
+                    <img src="{{ asset('logo.png') }}" alt="logo" style="width:100%">
+                </td>
+                <td style="width:67%">
+                    <h1>{{ entreprise.raisonSociale }}</h1><br>
+                    <h2>Stand N° {{ stand }} -  Salle {{ entreprise.salle }}</h2>
+                </td>
+            </tr>
+        </table>
+        <br><br>
+        <table style="width:100%">
+            <thead>
+            <tr>
+                <th>Heure</th>
+                <th>Nom Prénom</th>
+                <th>Offre</th>
+            </tr>
+            </thead>
+            {% if candidatures[entreprise.id][stand] is defined %}
+            {% for candidature in candidatures[entreprise.id][stand] %}
+                <tr>
+                    <td>{{ candidature.creneau|date('H:i') }}</td>
+                    <td>{{ candidature.etudiant.display }}</td>
+                    <td>{{ candidature.offre.titre }}</td>
+                </tr>
+            {% endfor %}
+            {% endif %}
+        </table>
+        <div style="page-break-after:always"></div>
+    {% endfor %}
+{% endfor %}
+</body>
+</html>
+
+
+

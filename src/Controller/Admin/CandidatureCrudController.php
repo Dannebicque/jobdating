@@ -2,23 +2,41 @@
 
 namespace App\Controller\Admin;
 
+use App\Classes\Export;
 use App\Entity\Candidature;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class CandidatureCrudController extends AbstractCrudController
 {
+    public function __construct(private Export $export)
+    {}
+
     public static function getEntityFqcn(): string
     {
         return Candidature::class;
     }
 
+    public function configureActions(Actions $actions): Actions
+    {
+        // this action executes the 'renderInvoice()' method of the current CRUD controller
+        $viewInvoice = Action::new('viewInvoice', 'Exporter Plannings', 'fa fa-download')->createAsGlobalAction()
+            ->linkToCrudAction('exportPlanning');
+
+        return $actions
+            // ...
+            ->add(Crud::PAGE_INDEX, $viewInvoice)
+            ->setPermission(Action::NEW, 'ROLE_ADMIN')
+            ->setPermission(Action::EDIT, 'ROLE_ADMIN')
+            ->setPermission(Action::DELETE, 'ROLE_ADMIN');
+
+    }
 
     public function configureFields(string $pageName): iterable
     {
@@ -53,14 +71,9 @@ class CandidatureCrudController extends AbstractCrudController
         ];
     }
 
-    public function configureActions(Actions $actions): Actions
+    public function exportPlanning()
     {
-
-        return $actions
-            // you can set permissions for built-in actions in the same way
-            ->setPermission(Action::NEW, 'ROLE_ADMIN')
-            ->setPermission(Action::EDIT, 'ROLE_ADMIN')
-            ->setPermission(Action::DELETE, 'ROLE_ADMIN');
+        return $this->export->exportPlanning();
     }
 
 }

@@ -2,14 +2,18 @@
 
 namespace App\Classes;
 
+use App\Repository\CandidatureRepository;
 use App\Repository\EntrepriseRepository;
 use App\Repository\OffreRepository;
 use App\Repository\RepresentantRepository;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Twig\Environment;
 
 class Export
 {
@@ -17,6 +21,9 @@ class Export
     protected Worksheet $sheet;
 
     public function __construct(
+        private Pdf $knpSnappyPdf,
+        private Environment $twig,
+        private CandidatureRepository $candidatureRepository,
         private OffreRepository $offreRepository,
         private EntrepriseRepository $entrepriseRepository,
         private RepresentantRepository $representantRepository
@@ -122,5 +129,34 @@ class Export
 
         return $this->save('offres');
 
+    }
+
+    public function exportPlanning()
+    {
+        $entreprises = $this->entrepriseRepository->findAll();
+        $allCandidatures = $this->candidatureRepository->findBy([], ['creneau' => 'ASC']);
+
+        $candidatures = [];
+        foreach ($entreprises as $entreprise)
+        {
+            $candidatures[$entreprise->getId()] = [];
+            for($i = 1; $i < $entreprise->getNbStands(); $i++) {
+                $candidatures[$entreprise->getId()][$i] = [];
+            }
+        }
+
+        foreach ($allCandidatures as $candidature) {
+            $candidatures[$candidature->getOffre()->getEntreprise()->getId()][$candidature->getStand()][] = $candidature;
+        }
+
+        $html = $this->twig->render('pdf/planning.html.twig', array(
+            'entreprises' => $this->entrepriseRepository->findAll(),
+            'candidatures' => $candidatures
+        ));
+
+        return new PdfResponse(
+            $this->knpSnappyPdf->getOutputFromHtml($html, ['enable-local-file-access' => true]),
+            'planning.pdf'
+        );
     }
 }
