@@ -36,8 +36,8 @@
                 </td>
                 <td style="width:67%">
                     <h1>{{ entreprise.raisonSociale }}</h1><br>
-                    <h2>Stand N° {{ stand }} -  Salle {{ entreprise.salle }}</h2>
-                    <p>Présent de {{ entreprise.heureDebut|date('H:i') }} à  {{ entreprise.heureFin|date('H:i') }}</p>
+                    <h2>Stand N° {{ stand }} - Salle {{ entreprise.salle }}</h2>
+                    <p>Présent de {{ entreprise.heureDebut|date('H:i') }} à {{ entreprise.heureFin|date('H:i') }}</p>
                 </td>
             </tr>
         </table>
@@ -51,13 +51,15 @@
             </tr>
             </thead>
             {% if candidatures[entreprise.id][stand] is defined %}
-            {% for candidature in candidatures[entreprise.id][stand] %}
-                <tr>
-                    <td>{{ candidature.creneau|date('H:i') }}</td>
-                    <td>{{ candidature.etudiant.display }}</td>
-                    <td>{{ candidature.offre.titre }}</td>
-                </tr>
-            {% endfor %}
+                {% for candidature in candidatures[entreprise.id][stand] %}
+                    {% if candidature.creneau != null %}
+                        <tr>
+                            <td>{{ candidature.creneau|date('H:i') }}</td>
+                            <td>{{ candidature.etudiant.display }}</td>
+                            <td>{{ candidature.offre.titre }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
             {% endif %}
         </table>
         <div style="page-break-after:always"></div>
