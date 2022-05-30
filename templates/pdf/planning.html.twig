@@ -13,16 +13,17 @@
     </style>
 </head>
 <body>
-{% for entreprise in entreprises %}
+{% for entreprise in entreprises|filter(entreprise => entreprise.participe == true) %}
     {% for stand in 1..entreprise.nbStands %}
         <table style="width:100%">
             <tr>
                 <td style="width:33%">
-                    <img src="{{ asset('logo.png') }}" alt="logo" style="width:100%">
+                    <img src="{{ absolute_url(asset('logo.png')) }}" alt="logo">
                 </td>
                 <td style="width:67%">
                     <h1>{{ entreprise.raisonSociale }}</h1><br>
                     <h2>Stand N° {{ stand }} -  Salle {{ entreprise.salle }}</h2>
+                    <p>Présent de {{ entreprise.heureDebut|date('H:i') }} à  {{ entreprise.heureFin|date('H:i') }}</p>
                 </td>
             </tr>
         </table>
