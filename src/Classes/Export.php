@@ -146,7 +146,9 @@ class Export
         }
 
         foreach ($allCandidatures as $candidature) {
-            $candidatures[$candidature->getOffre()->getEntreprise()->getId()][$candidature->getStand()][] = $candidature;
+            if ($candidature->getCreneau() !== null) {
+                $candidatures[$candidature->getOffre()->getEntreprise()->getId()][$candidature->getStand()][] = $candidature;
+            }
         }
 
         $html = $this->twig->render('pdf/planning.html.twig', array(
