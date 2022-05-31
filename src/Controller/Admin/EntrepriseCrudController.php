@@ -8,11 +8,17 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class EntrepriseCrudController extends AbstractCrudController
 {
     public function __construct(private Export $export)
-    {}
+    {
+    }
 
     public static function getEntityFqcn(): string
     {
@@ -27,11 +33,23 @@ class EntrepriseCrudController extends AbstractCrudController
         return $actions
             // you can set permissions for built-in actions in the same way
             ->add(Crud::PAGE_INDEX, $viewInvoice)
-
             ->setPermission(Action::NEW, 'ROLE_ADMIN')
             ->setPermission(Action::EDIT, 'ROLE_ADMIN')
-            ->setPermission(Action::DELETE, 'ROLE_ADMIN')
-            ;
+            ->setPermission(Action::DELETE, 'ROLE_ADMIN');
+    }
+
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            IdField::new('id')->hideOnIndex(),
+            TextField::new('raison_sociale', 'Raison Sociale'),
+            TextField::new('adresse', 'Adresse'),
+            TextField::new('code_postal', 'Code Postal'),
+            TextField::new('ville', 'Ville'),
+            TextField::new('salle', 'Salle'),
+            IntegerField::new('nbStands', 'Nb Stands'),
+            AssociationField::new('offres', 'Nb Offres')->setCrudController(OffreCrudController::class),
+        ];
     }
 
     public function exportListe()
