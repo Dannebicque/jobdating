@@ -42,8 +42,10 @@ class OffreCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('titre'),
+            TextField::new('descriptif')->hideOnIndex(),
             AssociationField::new('entreprise', 'Entreprise')->setCrudController(EntrepriseCrudController::class),
-            AssociationField::new('diplomes', 'Diplômes')->setCrudController(DiplomeCrudController::class)->setFormTypeOption('choice_label', 'sigle'),
+//            AssociationField::new('diplomes', 'Diplômes')->setCrudController(DiplomeCrudController::class)->setFormTypeOption('choice_label', 'sigle')->hideOnIndex(),
+            AssociationField::new('parcours', 'Parcours')->setCrudController(ParcoursCrudController::class)->setFormTypeOption('choice_label', 'sigle')->hideOnIndex(),
         ];
     }
 
