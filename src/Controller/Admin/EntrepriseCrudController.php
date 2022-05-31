@@ -9,6 +9,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -47,6 +48,7 @@ class EntrepriseCrudController extends AbstractCrudController
             TextField::new('code_postal', 'Code Postal'),
             TextField::new('ville', 'Ville'),
             TextField::new('salle', 'Salle'),
+            BooleanField::new('participe', 'Participe'),
             IntegerField::new('nbStands', 'Nb Stands'),
             AssociationField::new('offres', 'Nb Offres')->setCrudController(OffreCrudController::class),
         ];
