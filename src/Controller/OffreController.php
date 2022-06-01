@@ -16,6 +16,7 @@ class OffreController extends AbstractController
     #[Route('/new', name: 'app_offre_new', methods: ['GET', 'POST'])]
     public function new(Request $request, OffreRepository $offreRepository): Response
     {
+        return $this->redirectToRoute('inscription_close');
         $offre = new Offre();
         $offre->setEntreprise($this->getUser()?->getEntreprise());
         $form = $this->createForm(OffreType::class, $offre);

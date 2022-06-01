@@ -152,7 +152,7 @@ class Export
         }
 
         $html = $this->twig->render('pdf/planning.html.twig', array(
-            'entreprises' => $this->entrepriseRepository->findAll(),
+            'entreprises' => $entreprises,
             'candidatures' => $candidatures
         ));
 
@@ -161,4 +161,29 @@ class Export
             'planning.pdf'
         );
     }
+
+    public function exportPlanningOffres()
+    {
+        $offres = $this->offreRepository->findAll();
+        $allCandidatures = $this->candidatureRepository->findBy([], ['creneau' => 'ASC']);
+
+        $candidatures = [];
+
+        foreach ($allCandidatures as $candidature) {
+            if ($candidature->getCreneau() !== null) {
+                $candidatures[$candidature->getOffre()->getId()][] = $candidature;
+            }
+        }
+
+        $html = $this->twig->render('pdf/planningOffres.html.twig', array(
+            'offres' => $offres,
+            'candidatures' => $candidatures
+        ));
+
+        return new PdfResponse(
+            $this->knpSnappyPdf->getOutputFromHtml($html, ['enable-local-file-access' => true]),
+            'planning-offres.pdf'
+        );
+    }
+
 }

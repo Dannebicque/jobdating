@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+        }
+
+        .table {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        .table tr {
+            border: 1px solid black;
+        }
+
+        .table td {
+            border: 1px solid black;
+            padding: 4px;
+        }
+    </style>
+</head>
+<body>
+{% for offre in offres %}
+    <img src="{{ absolute_url(asset('header.png')) }}" style="width:100%; margin:0px">
+    <table style="width:100%">
+        <tr>
+            <td style="text-align: center">
+                <h1>{{ offre.titre }}</h1><br>
+                <h2>{{ offre.entreprise.raisonSociale }}</h2>
+                {#                    <h2>Stand N° {{ stand }} - Salle {{ entreprise.salle }}</h2> #}
+                <p>Présent de {{ offre.entreprise.heureDebut|date('H:i') }} à {{ offre.entreprise.heureFin|date
+                        ('H:i') }}</p>
+            </td>
+        </tr>
+    </table>
+    <br><br>
+    <table style="width:100%" class="table">
+        <thead>
+        <tr>
+            <th>Heure</th>
+            <th>Nom Prénom</th>
+            <th>Stand</th>
+        </tr>
+        </thead>
+        {% if candidatures[offre.id] is defined %}
+            {% for candidature in candidatures[offre.id] %}
+                {% if candidature.creneau != null %}
+                    <tr>
+                        <td>{{ candidature.creneau|date('H:i') }}</td>
+                        <td>{{ candidature.etudiant.display }}</td>
+                        <td>{{ candidature.stand }}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </table>
+    <div style="page-break-after:always"></div>
+{% endfor %}
+</body>
+</html>
+
+
+

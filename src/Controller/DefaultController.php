@@ -15,4 +15,11 @@ class DefaultController extends AbstractController
             'controller_name' => 'DefaultController',
         ]);
     }
+
+    #[Route('/inscriptions-closes', name: 'inscription_close')]
+    public function close(): Response
+    {
+        return $this->render('default/close.html.twig', [
+        ]);
+    }
 }

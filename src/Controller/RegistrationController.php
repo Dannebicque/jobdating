@@ -36,6 +36,7 @@ class RegistrationController extends AbstractController
     #[Route('/', name: 'app_register')]
     public function register(): Response
     {
+        return $this->redirectToRoute('inscription_close');
         return $this->render('registration/register.html.twig');
     }
 
@@ -47,6 +48,8 @@ class RegistrationController extends AbstractController
         LoginFormAuthenticator $authenticator,
         EntityManagerInterface $entityManager
     ): Response {
+        return $this->redirectToRoute('inscription_close');
+
         $entreprise = new Entreprise();
         $representant = new Representant();
         $entreprise->addRepresentant($representant);
